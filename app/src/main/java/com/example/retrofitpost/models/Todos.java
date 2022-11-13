@@ -2,6 +2,8 @@ package com.example.retrofitpost.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 public class Todos {
 
     @SerializedName("userId")

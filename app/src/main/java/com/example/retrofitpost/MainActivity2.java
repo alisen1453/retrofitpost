@@ -18,6 +18,9 @@ import com.example.retrofitpost.services.todosprovider.TodosApiInterface;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +31,8 @@ public class MainActivity2 extends AppCompatActivity {
     public TodoAdapter todoAdapter;
     public Todos todos;
     public RecyclerView recyclerView;
+    CompositeDisposable compositeDisposable;
+
 
     @SuppressLint("ResourceType")
     @Override
@@ -37,11 +42,19 @@ public class MainActivity2 extends AppCompatActivity {
         loadData();
         arrayttodos = new ArrayList<>();
         recyclerView = findViewById(R.id.recycleview);
+
     }
 
     public void loadData() {
         api = RetrofitClient.getRetrofitInstance("https://jsonplaceholder.typicode.com/")
                 .create(TodosApiInterface.class);
+        compositeDisposable=new CompositeDisposable();
+        compositeDisposable.add(api.getvalue().
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(this::todosrespons));
+
+        /*
         api.getvalue().enqueue(new Callback<List<Todos>>() {
             @Override
             public void onResponse(Call<List<Todos>> call, Response<List<Todos>> response) {
@@ -59,7 +72,20 @@ public class MainActivity2 extends AppCompatActivity {
             public void onFailure(Call<List<Todos>> call, Throwable t) {
 
             }
-        });
+        });*/
 
+    }
+    private void todosrespons(List<Todos> todoslist){
+            arrayttodos=new ArrayList<>(todoslist);
+            todoAdapter = new TodoAdapter(arrayttodos);
+            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity2.this));
+            recyclerView.setAdapter(todoAdapter);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
     }
 }
