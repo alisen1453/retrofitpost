@@ -2,6 +2,7 @@ package com.example.retrofitpost.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViwe> {
 
     public TodoAdapter(ArrayList<Todos> arrayList) {
         this.arrayList = arrayList;
-        this.context = context;
+        //this.context = context;
     }
 
     @NonNull
@@ -37,25 +38,21 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViwe> {
     public void onBindViewHolder(@NonNull TodoAdapter.TodoViwe holder, int position) {
         Todos todos = arrayList.get(position);
         holder.loaddata(todos);
+
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                //Toast.makeText(holder.itemView.getContext(), arrayList.get(holder.getAdapterPosition()).id, Toast.LENGTH_SHORT).show();
-                String a=arrayList.get(holder.getAdapterPosition()).userId;
-                String b=arrayList.get(holder.getAdapterPosition()).id;
-                String c=arrayList.get(holder.getAdapterPosition()).title;
-                String d=arrayList.get(holder.getAdapterPosition()).completed;
-
-                Intent intentsent=new Intent(holder.itemView.getContext(),MainActivity3.class);
-                intentsent.putExtra("data1",a);
-                intentsent.putExtra("data2",b);
-                intentsent.putExtra("data3",c);
-                intentsent.putExtra("data4",d);
-                holder.itemView.getContext().startActivity(intentsent);
+                Intent intent=new Intent(v.getContext(),MainActivity3.class);
+                intent.putExtra("data",todos.getId());
+                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP|intent.FLAG_ACTIVITY_CLEAR_TASK|
+                        intent.FLAG_ACTIVITY_NEW_TASK);
+                v.getContext().startActivity(intent);
 
             }
         });
-
     }
 
     @Override
@@ -72,16 +69,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViwe> {
             txt1 = itemView.findViewById(R.id.Id);
             txt2 = itemView.findViewById(R.id.title);
             txt3 = itemView.findViewById(R.id.completed);
-
-
         }
-
         public void loaddata(Todos todos) {
             this.txt.setText(todos.getUserId());
             this.txt1.setText(todos.getId());
             this.txt2.setText(todos.getTitle());
             this.txt3.setText(todos.getCompleted());
-
         }
+
     }
+
 }

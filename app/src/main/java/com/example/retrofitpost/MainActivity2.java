@@ -45,6 +45,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
 
+
     public void loadData() {
         api = RetrofitClient.getRetrofitInstance("https://jsonplaceholder.typicode.com/")
                 .create(TodosApiInterface.class);
@@ -73,13 +74,13 @@ public class MainActivity2 extends AppCompatActivity {
 
             }
         });*/
-
     }
     private void todosrespons(List<Todos> todoslist){
             arrayttodos=new ArrayList<>(todoslist);
             todoAdapter = new TodoAdapter(arrayttodos);
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity2.this));
             recyclerView.setAdapter(todoAdapter);
+
 
     }
 
@@ -88,4 +89,5 @@ public class MainActivity2 extends AppCompatActivity {
         super.onDestroy();
         compositeDisposable.clear();
     }
+
 }
