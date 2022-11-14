@@ -5,9 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.retrofitpost.adapters.TodoAdapter;
 import com.example.retrofitpost.clients.RetrofitClient;
@@ -80,6 +82,7 @@ public class MainActivity2 extends AppCompatActivity {
             todoAdapter = new TodoAdapter(arrayttodos);
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity2.this));
             recyclerView.setAdapter(todoAdapter);
+
 
 
     }
